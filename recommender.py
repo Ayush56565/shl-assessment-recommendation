@@ -71,7 +71,7 @@ class SHLRecommenderRAG:
             if json_str:
                 parsed = json.loads(json_str.group(1).strip())
             else:
-                parsed = json.loads(raw.strip())  # fallback
+                parsed = json.loads(raw.strip())  
             return parsed
         except json.JSONDecodeError:
             raise ValueError("LLM response is not valid JSON:\n" + raw)

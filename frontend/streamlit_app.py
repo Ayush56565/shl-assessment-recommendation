@@ -1,7 +1,6 @@
 import streamlit as st
 import requests
 
-# Replace with your actual deployed FastAPI backend URL
 BACKEND_URL = "https://shl-assessment-recommendation-s2wx.onrender.com"
 
 st.set_page_config(page_title="SHL Assessment Recommender", layout="centered")
@@ -26,7 +25,7 @@ if st.button("Get Recommendations"):
                         for i, rec in enumerate(results, 1):
                             st.markdown(f"### {i}. [{rec['url']}]({rec['url']})")
                             st.markdown(f"**Description**: {rec['description']}")
-                            st.markdown(f"**Duration**: {rec['duration']} minutes")
+                            st.markdown(f"**Duration**: {rec['duration']}")
                             st.markdown(f"**Remote Support**: {rec['remote_support']}")
                             st.markdown(f"**Adaptive Support**: {rec['adaptive_support']}")
                             st.markdown(f"**Test Types**: {', '.join(rec['test_type'])}")

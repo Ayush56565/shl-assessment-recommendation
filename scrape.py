@@ -84,7 +84,6 @@ def scrape_and_embed():
                 data = scrape_assessment_details(relative_url)
                 assessments.append(data)
 
-                # Create plain text for embedding
                 text = (
                     f"{data['assessment_name']}. {data['description']}. "
                     f"Duration: {data['duration']} minutes. "
@@ -93,29 +92,23 @@ def scrape_and_embed():
                     f"Adaptive Support: {data['adaptive_support']}."
                 )
                 texts_for_embedding.append(text)
-                time.sleep(1)  # Be polite to SHL server
+                time.sleep(1)  
             except Exception as e:
                 print(f"   ⚠️ Error scraping row: {e}")
         page_count += 12
 
     with open("data/scraped_data.json", "w") as f:
         json.dump(assessments, f, indent=4)
-    print("✅ Scraped data saved to data/scraped_data.json")
-    # Save JSON
-    with open("data/scraped_data.json", "w") as f:
-        json.dump(assessments, f, indent=4)
-    print("✅ Scraped data saved to data/scraped_data.json")
+    print("Scraped data saved to data/scraped_data.json")
 
-    # Generate embeddings
     model = SentenceTransformer(EMBEDDING_MODEL)
     embeddings = model.encode(texts_for_embedding, show_progress_bar=True)
     embeddings = np.array(embeddings).astype("float32")
 
-    # Build FAISS index
     index = faiss.IndexFlatL2(embeddings.shape[1])
     index.add(embeddings)
     faiss.write_index(index, "data/index.faiss")
-    print("✅ Embeddings saved to data/index.faiss")
+    print("Embeddings saved to data/index.faiss")
 
 if __name__ == "__main__":
     scrape_and_embed()
