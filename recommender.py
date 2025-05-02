@@ -57,7 +57,8 @@ class SHLRecommenderRAG:
             f"{context}\n\n"
             f"Recommend the top {top_k} most suitable assessments in JSON format with the following keys only:\n"
             f" - url (string)\n - adaptive_support (Yes/No)\n - description (string)\n"
-            f" - duration (int)\n - remote_support (Yes/No)\n - test_type (list of strings)"
+            f" - duration (string)\n - remote_support (Yes/No)\n - test_type (list of strings)"
+            f"Return the exact JSON data of the assessments that match as it is, don't synthesize new data."
         )
         response = self.groq.chat.completions.create(
             model="mistral-saba-24b",
