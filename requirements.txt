@@ -2,7 +2,6 @@ fastapi
 uvicorn 
 requests 
 beautifulsoup4 
-playwright 
 aiohttp 
 groq 
 faiss-cpu
