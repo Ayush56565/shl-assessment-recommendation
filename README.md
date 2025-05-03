@@ -24,8 +24,8 @@ Before getting started, ensure you have the following:
 
 1. **Clone the repository**:
     ```bash
-    git clone https://github.com/yourusername/shl-assessment-recommender.git
-    cd shl-assessment-recommender
+    git clone https://github.com/Ayush56565/shl-assessment-recommendation.git
+    cd shl-assessment-recommendation
     ```
 
 2. **Create a virtual environment**:
