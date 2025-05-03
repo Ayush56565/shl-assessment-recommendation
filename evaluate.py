@@ -13,18 +13,15 @@ def evaluate(benchmark_file, api_url):
     for data in tqdm(benchmark_data, desc="Evaluating"):
         query = data['query']
         true_assessments = set(data['urls'])  
-        print(true_assessments)
 
         response = requests.post(f"{api_url}/recommend", json={"query": query})
-        
+    
         if response.status_code != 200:
             print(f"Error in recommendation for query: {query}")
             continue
         
         recommended_assessments = [item['url'] for item in response.json()['recommended_assessments'][:3]]
-        print(recommended_assessments)
-        print(true_assessments.intersection(recommended_assessments))
-        recall_at_3 = len(true_assessments.intersection(recommended_assessments)) / 3
+        recall_at_3 = len(true_assessments.intersection(set(recommended_assessments))) / 3
         total_recall += recall_at_3
 
         relevant_found = 0
@@ -46,7 +43,7 @@ def evaluate(benchmark_file, api_url):
     return mean_recall_at_3, mean_map_at_3
 
 if __name__ == "__main__":
-    benchmark_file = 'eval/b.jsonl'
+    benchmark_file = 'eval/benchmark.jsonl'
     api_url = 'http://localhost:8000' 
     
     evaluate(benchmark_file, api_url)

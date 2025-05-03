@@ -9,7 +9,7 @@ import os
 
 BASE_URL = "https://www.shl.com"
 HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
-EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
+EMBEDDING_MODEL = "sentence-transformers/all-mpnet-base-v2"
 
 os.makedirs("data", exist_ok=True)
 
@@ -61,9 +61,8 @@ def scrape_assessment_details(relative_url):
         "test_type": test_type
     }
 
-def scrape_and_embed():
+def scrape():
     assessments = []
-    texts_for_embedding = []
     page_count=0
     for page in range(1, 33):  
         catalog_url = f"{BASE_URL}/products/product-catalog/?start={page_count}&type=1&type=1"
@@ -91,7 +90,6 @@ def scrape_and_embed():
                     f"Remote Support: {data['remote_support']}. "
                     f"Adaptive Support: {data['adaptive_support']}."
                 )
-                texts_for_embedding.append(text)
                 time.sleep(1)  
             except Exception as e:
                 print(f"   ⚠️ Error scraping row: {e}")
@@ -101,14 +99,5 @@ def scrape_and_embed():
         json.dump(assessments, f, indent=4)
     print("Scraped data saved to data/scraped_data.json")
 
-    model = SentenceTransformer(EMBEDDING_MODEL)
-    embeddings = model.encode(texts_for_embedding, show_progress_bar=True)
-    embeddings = np.array(embeddings).astype("float32")
-
-    index = faiss.IndexFlatL2(embeddings.shape[1])
-    index.add(embeddings)
-    faiss.write_index(index, "data/index.faiss")
-    print("Embeddings saved to data/index.faiss")
-
 if __name__ == "__main__":
-    scrape_and_embed()
+    scrape()

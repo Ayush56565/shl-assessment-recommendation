@@ -12,7 +12,7 @@ class SHLRecommenderRAG:
     def __init__(self,
                  index_path="data/index.faiss",
                  data_path="data/scraped_data.json",
-                 embedding_model="sentence-transformers/all-MiniLM-L6-v2",
+                 embedding_model="sentence-transformers/all-mpnet-base-v2",
                  groq_api_key=None):
         self.index = faiss.read_index(index_path)
         with open(data_path, "r") as f:
@@ -61,7 +61,7 @@ class SHLRecommenderRAG:
             f"Return the exact JSON data of the assessments that match as it is, don't synthesize new data."
         )
         response = self.groq.chat.completions.create(
-            model="mistral-saba-24b",
+            model="deepseek-r1-distill-llama-70b",
             messages=[{"role": "user", "content": prompt}],
             temperature=0.4
         )
