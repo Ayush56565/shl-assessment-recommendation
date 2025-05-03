@@ -121,8 +121,14 @@ To deploy the app on a server, follow these steps:
     uvicorn main:app --host 0.0.0.0 --port 8000
     ```
 
+## Evaluation
 
-
+Evaluated using a benchmark dataset of real-world job queries mapped to SHL assessments.
+- Metrics:
+  -  Mean Average Precision at 3 (MAP@3) : 0.12698412698412698
+  -  Mean Recall at 3 (Recall@3) : 0.14285714285714285
+![Upload Screen](screenshots/eval.png)
+These metrics measure how often the correct assessments appear in the top 3 results and their ranking quality.
 
 ## Notes
 
